@@ -31,6 +31,6 @@ Failures concentrate on Sep 9 (HI), a busier weekday where innocent scores shift
 
 ## Checks and what is not yet re-measured
 - Shuffled-label AUC 0.492 and a future-rows-deleted check were run on the earlier cumulative-feature model. The final 24h-rolling features were not re-run through the same two checks.
-- Serving versus offline: 99.8% of 20,000 test scores matched within 1e-6 before the same-timestamp fix. The fix was verified on one held transaction (hold, score 1.0) but the 20,000-row match was not re-measured.
+- Serving versus offline: 100% of 20,000 test scores match within 1e-6 (max difference 7e-8) after the same-timestamp fix; before the fix 99.8% matched.
 - Only 8 HI test windows, so break rates are coarse.
 - Serving uses one worker (the audit log has a single writer): about 800 screens/s at low concurrency, degrading at 50+ concurrent callers (see results/loadtest.txt).
