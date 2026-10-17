@@ -22,6 +22,9 @@ log = AuditLog(os.path.join(RUNTIME, "audit"), os.path.join(RUNTIME, "keys", "au
                checkpoint_every=100, batch_size=50)
 
 
+PUBKEY_FPR = sha256_hex(log.key.public_key().export_key(format="DER"))
+
+
 class Txn(BaseModel):
     txn_id: str
     src_acct: str
@@ -52,7 +55,7 @@ def health():
 @app.get("/policy")
 def policy():
     return {"threshold": THRESHOLD, "cap_per_10k": CAP_PER_10K, "model_hash": MODEL_HASH,
-            "calibrator_hash": CALIBRATOR_HASH, "note": "dummy values until the model is wired in"}
+            "calibrator_hash": CALIBRATOR_HASH, "audit_public_key_sha256": PUBKEY_FPR, "note": "dummy values until the model is wired in"}
 
 
 @app.post("/screen")
@@ -87,3 +90,9 @@ def audit_replay(seq: int):
     if rec is None:
         raise HTTPException(404, "no such record")
     return {"consistent": ok, "record": rec}
+
+
+@app.post("/case/{case_id}/verify")
+def case_verify(case_id: str):
+    # Stub: the verification tiers are designed by the simulation role, not built yet.
+    raise HTTPException(501, "not implemented yet: verification tiers are still being designed")
