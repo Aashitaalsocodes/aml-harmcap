@@ -18,6 +18,18 @@ MODEL_ID = "dummy-scorer-v0"
 MODEL_HASH = sha256_hex(MODEL_ID.encode())
 CALIBRATOR_HASH = sha256_hex(b"dummy-calibrator-v0")
 
+MODEL_PATH = os.environ.get("MODEL_PATH", "")
+SC = None
+if MODEL_PATH:   # real model (scorer.py by the data person); otherwise the dummy scorer is used
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from scorer import RealScorer
+    SC = RealScorer(MODEL_PATH)
+    MODEL_ID = "lightgbm-m3-r24"
+    MODEL_HASH = SC.model_hash
+    CALIBRATOR_HASH = sha256_hex(b"none: thresholds chosen on raw model scores")
+    if "THRESHOLD" not in os.environ:
+        THRESHOLD = 0.99506049103294   # cap 5 per 10k, frozen on HI-Small calibration
+
 app = FastAPI(title="Harm-capped AML screening")
 log = AuditLog(os.path.join(RUNTIME, "audit"), os.path.join(RUNTIME, "keys", "audit_key.pem"),
                checkpoint_every=100, batch_size=50)
@@ -84,6 +96,11 @@ class Txn(BaseModel):
     dst_acct: str
     amount: float
     currency: str = "USD"
+    cur_recv: Optional[str] = None
+    src_bank: str = "0"
+    dst_bank: str = "1"
+    fmt: str = "ACH"
+    ts: Optional[str] = None   # ISO time in UTC, e.g. 2022-09-09T10:15:00
 
 
 def score_txn(t):
@@ -108,13 +125,13 @@ def health():
 @app.get("/policy")
 def policy():
     return {"threshold": THRESHOLD, "cap_per_10k": CAP_PER_10K, "model_hash": MODEL_HASH,
-            "calibrator_hash": CALIBRATOR_HASH, "audit_public_key_sha256": PUBKEY_FPR, "verify_auth_required": bool(VERIFY_TOKEN), "tiers": TIERS, "note": "dummy values until the model is wired in"}
+            "calibrator_hash": CALIBRATOR_HASH, "audit_public_key_sha256": PUBKEY_FPR, "verify_auth_required": bool(VERIFY_TOKEN), "tiers": TIERS, "note": ("raw LightGBM scores, threshold frozen on HI-Small Sep 7-8 calibration" if SC else "dummy values until the model is wired in")}
 
 
 @app.post("/screen")
 def screen(t: Txn):
     t0 = time.perf_counter()
-    score = score_txn(t)
+    score = SC.score(t) if SC else score_txn(t)
     hold = score >= THRESHOLD
     decision = "hold" if hold else "release"
     tier = tier_for(score, THRESHOLD) if hold else 0
