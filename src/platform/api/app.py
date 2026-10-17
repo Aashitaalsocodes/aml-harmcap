@@ -10,6 +10,7 @@ from auditlog import AuditLog, verify_log, replay, canon, sha256_hex
 
 RUNTIME = os.environ.get("RUNTIME_DIR", os.path.expanduser("~/shared/ashmitha/runtime"))
 THRESHOLD = float(os.environ.get("THRESHOLD", "0.9"))   # dummy until the policy is chosen
+LOGGING = os.environ.get("AUDIT_LOGGING", "1") == "1"   # set 0 only for load-test comparison
 CAP_PER_10K = 5                                          # placeholder cap shown by /policy
 
 MODEL_ID = "dummy-scorer-v0"
@@ -45,7 +46,7 @@ def sync_log():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "model": MODEL_ID, "records_logged": log.seq}
+    return {"status": "ok", "model": MODEL_ID, "records_logged": log.seq, "audit_logging": LOGGING}
 
 
 @app.get("/policy")
@@ -62,8 +63,11 @@ def screen(t: Txn):
     decision = "hold" if hold else "release"
     tier = 1 if hold else 0
     feature_hash = sha256_hex(canon(t.model_dump()))
-    rec = log.append(t.txn_id, feature_hash, MODEL_HASH, CALIBRATOR_HASH,
-                     THRESHOLD, round(score, 6), decision, tier)
+    if LOGGING:
+        rec = log.append(t.txn_id, feature_hash, MODEL_HASH, CALIBRATOR_HASH,
+                         THRESHOLD, round(score, 6), decision, tier)
+    else:
+        rec = {"seq": 0, "record_hash": ""}
     return {"txn_id": t.txn_id, "decision": decision, "tier": tier, "score": round(score, 6),
             "audit_seq": rec["seq"], "record_hash": rec["record_hash"],
             "latency_ms": round((time.perf_counter() - t0) * 1000, 3)}
