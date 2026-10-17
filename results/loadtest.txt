@@ -1,0 +1,16 @@
+Load test of POST /screen, real LightGBM model, aml-harmcap:real on IBM LinuxONE (s390x, 3 CPUs)
+Client runs inside the same container. 2000 requests per level. One worker. 0 errors at every level.
+
+Logging ON
+ conc   reqs errors     req/s   p50 ms   p95 ms   p99 ms
+    1   2000      0     810.7     1.15     1.53     2.25
+   10   2000      0     806.3     6.59    47.84   105.42
+   50   2000      0     297.6   101.91   545.61   931.08
+  100   2000      0     252.1   170.55  1756.95  3239.42
+
+Logging OFF
+ conc   reqs errors     req/s   p50 ms   p95 ms   p99 ms
+    1   2000      0     794.9     1.15     1.58     3.57
+   10   2000      0     804.7     6.72    46.37    99.12
+   50   2000      0     228.7   155.19   633.10   917.22
+  100   2000      0     251.0   170.67  1772.53  3341.02
