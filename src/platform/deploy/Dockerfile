@@ -13,6 +13,7 @@ RUN useradd --uid 10001 --create-home app && mkdir /data && chown app:app /data
 WORKDIR /app
 COPY audit/auditlog.py /app/audit/auditlog.py
 COPY api/app.py /app/api/app.py
+COPY api/tiers.json /app/api/tiers.json
 USER app
 WORKDIR /app/api
 EXPOSE 8000
