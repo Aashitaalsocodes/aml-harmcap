@@ -6,3 +6,7 @@ parquet/
 *.key
 __pycache__/
 .ipynb_checkpoints/
+clean/
+*.pkl
+clean/
+*.pkl
