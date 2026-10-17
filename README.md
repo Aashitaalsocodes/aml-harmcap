@@ -29,7 +29,22 @@ The thresholds from the HI-Small calibration were applied without retuning to 40
 
 | Cap (per 10,000) | Recall | Mean harm | Worst window | Break rate |
 |---|---|---|---|---|
-| 2 | 11.9% | 1.9 | 7.4 | 25% of 40 windows |
+| 2 | 11.9% | 1.9 | 7.4 | 25% of 40 windows 
+### Tamper-evident audit log
+Every decision is written to a hash-chained log with signed checkpoints. A verifier walks the chain and checks the hashes, the signatures and the pinned model file. Automated tests alter the log in five ways, and the verifier must detect each one.
+
+| Test | Result | What the verifier reported |
+|---|---|---|
+| Untouched log verifies clean | PASS | no problems |
+| Replay record 100 | PASS | decision reproduced (release) |
+| 1. Edit a field | PASS | record 100: content altered (hash mismatch) |
+| 1b. Edit a field and recompute its hash | PASS | record 101: chain broken (prev_hash mismatch) |
+| 2. Delete a record | PASS | record 100: sequence is 101 (gap, reorder or deletion) |
+| 3. Reorder records | PASS | record 100: sequence is 101 (gap, reorder or deletion) |
+| 4. Truncate the tail | PASS | checkpoint 230: log ends at 220 (tail truncated) |
+| 5. Swap the model file | PASS | record 1: model file does not match logged model hash |
+
+PASS means the tamper was detected. All five attacks were caught, including the edit with a recomputed hash, which breaks the link to the next record.|
 | 5 | 13.4% | 6.0 | 50.0 | 35% of 40 windows |
 | 10 | 15.2% | 48.0 | 745.8 | 48% of 40 windows |
 
