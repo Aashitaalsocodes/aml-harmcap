@@ -1,4 +1,4 @@
-\# 3-minute video script (numbers marked \[TBD] are filled in as the team finishes)
+\# 3-minute video script
 
 
 
@@ -12,7 +12,7 @@
 
 | 0:40-1:10 | Does the cap hold? | Break-rate chart | We tested the cap on later windows and on a second dataset, with nothing retuned. At 5 per 10,000, the cap held in 6 of 8 windows on the main dataset, with recall 32.8%. On the second dataset it held in 26 of 40 windows, with recall 13.4%. We report the misses. |
 
-| 1:10-1:50 | LIVE demo on LinuxONE | Terminal: uname -m, docker ps, one /screen request, audit log entry | This runs on IBM LinuxONE, in a Docker container, not as root. Here is one transaction going through the API and being logged. One request at a time takes about 880 requests per second, p95 latency 1.4 milliseconds. The scorer here is a placeholder while the real model is being integrated. |
+| 1:10-1:50 | LIVE demo on LinuxONE | Terminal: uname -m, docker ps, one /screen request, audit log entry | This runs on IBM LinuxONE, in a Docker container, not as root. Here is one transaction going through the API with the real LightGBM model, and being logged. With one caller we measured about 800 to 870 requests per second, p95 under 2 milliseconds, on a single worker with the test client on the same machine. That is a single-node result, not production capacity. |
 
 | 1:50-2:25 | Tamper demo | Verifier output (pass/fail table) | If someone edits, deletes or reorders a record, cuts the end of the log, or swaps the model file, the verifier catches it. All five tamper tests were caught. |
 
