@@ -1,0 +1,3 @@
+cap 2: windows=8 mean_harm=0.5 worst=2.1 over_cap=1 of 8 recall(pooled)=0.137 min_prev_windows=4
+cap 5: windows=8 mean_harm=18.9 worst=128.8 over_cap=2 of 8 recall(pooled)=0.324 min_prev_windows=4
+cap 10: windows=8 mean_harm=151.0 worst=789.0 over_cap=3 of 8 recall(pooled)=0.337 min_prev_windows=4
