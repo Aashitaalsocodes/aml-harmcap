@@ -12,7 +12,7 @@
 
 | 0:50-1:20 | Does the cap hold? | Break-rate chart | We tested the cap on later windows and on a second dataset, with nothing retuned. At 5 wrongly held innocents per 10,000, the cap held in 6 of 8 windows on the main dataset, with recall 32.8%. On the second dataset it held in 26 of 40 windows, with recall 13.4%. We report the misses honestly. |
 
-| 1:20-2:10 | LIVE demo on LinuxONE | Terminal: uname -m, docker ps, one /screen request, audit log entry | Everything runs on IBM LinuxONE, in a Docker container, not as root. Here is one transaction going through the API and being logged. With one request at a time we measured about 880 requests per second, p95 latency 1.4 milliseconds, while the VM was busy, so these are conservative. The scoring step in this demo is a placeholder while the real model integration is in progress. |
+| 1:20-2:10 | LIVE demo on LinuxONE | Terminal: uname -m, docker ps, one /screen request, audit log entry | Everything runs on IBM LinuxONE, in a Docker container, not as root. Here is one transaction going through the API and being logged.With one request at a time and the audit log on, we measured about 810 requests per second, p95 latency about 1.5 milliseconds. With many callers at once it slows down, because the log has a single writer. The scoring step in this demo is a placeholder while the real model integration is in progress. |
 
 | 2:10-2:40 | Tamper demo | Verifier output (pass/fail table) | If someone edits, deletes or reorders a decision record, cuts off the end of the log, or swaps the model file, the verifier catches it. All five tamper tests were caught. For an edited record it reports: content altered, hash mismatch. |
 
