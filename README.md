@@ -13,6 +13,7 @@ Banks' AML systems flag transactions, and most flags are innocent people who get
 (To be filled in when the platform and model are ready.)
 
 ## Results
+
 ### Harm-cap test on later windows (HI-Small)
 Thresholds were frozen on the Sep 7-8 calibration data and tested on 8 six-hour windows from Sep 9-10, without retuning. Harm is wrongly held innocent accounts per 10,000 active accounts. A window breaks when its harm is above the cap.
 
@@ -29,7 +30,12 @@ The thresholds from the HI-Small calibration were applied without retuning to 40
 
 | Cap (per 10,000) | Recall | Mean harm | Worst window | Break rate |
 |---|---|---|---|---|
-| 2 | 11.9% | 1.9 | 7.4 | 25% of 40 windows 
+| 2 | 11.9% | 1.9 | 7.4 | 25% of 40 windows |
+| 5 | 13.4% | 6.0 | 50.0 | 35% of 40 windows |
+| 10 | 15.2% | 48.0 | 745.8 | 48% of 40 windows |
+
+The guarantee weakens on the second dataset. At cap 2 the break rate rises from 1 of 8 windows (12.5%) on HI-Small to 25% on LI-Small, and recall falls from 29.0% to 11.9%. Looser caps again break often and by large margins. This is the result the project is designed to measure: a harm cap tuned on one dataset does not automatically hold on another.
+
 ### Tamper-evident audit log
 Every decision is written to a hash-chained log with signed checkpoints. A verifier walks the chain and checks the hashes, the signatures and the pinned model file. Automated tests alter the log in five ways, and the verifier must detect each one.
 
@@ -44,11 +50,7 @@ Every decision is written to a hash-chained log with signed checkpoints. A verif
 | 4. Truncate the tail | PASS | checkpoint 230: log ends at 220 (tail truncated) |
 | 5. Swap the model file | PASS | record 1: model file does not match logged model hash |
 
-PASS means the tamper was detected. All five attacks were caught, including the edit with a recomputed hash, which breaks the link to the next record.|
-| 5 | 13.4% | 6.0 | 50.0 | 35% of 40 windows |
-| 10 | 15.2% | 48.0 | 745.8 | 48% of 40 windows |
-
-The guarantee weakens on the second dataset. At cap 2 the break rate rises from 1 of 8 windows (12.5%) on HI-Small to 25% on LI-Small, and recall falls from 29.0% to 11.9%. Looser caps again break often and by large margins. This is the result the project is designed to measure: a harm cap tuned on one dataset does not automatically hold on another.
+PASS means the tamper was detected. All five attacks were caught, including the edit with a recomputed hash, which breaks the link to the next record.
 
 ### Load test (with audit logging)
 2,000 requests per concurrency level against the FastAPI service in Docker on the LinuxONE VM. The load client ran in the same container as the API, so it competed with the server for the same 3 CPUs and the figures understate what the service can do.
@@ -61,8 +63,8 @@ The guarantee weakens on the second dataset. At cap 2 the break rate rises from 
 | 100 | 2000 | 0 | 244.3 | 183.07 | 1836.22 | 3225.25 |
 
 There were no errors at any level. Throughput is highest with one client and falls as concurrency rises, and tail latency grows from under 2 ms to about 3.2 s at 100 clients.
+
 ## Limitations
 - The data is synthetic and has no real "innocent customer" label.
 - The data spans only days to weeks, so test windows are hours or single days.
 - The last days of the dataset (11 to 18 September) contain almost only laundering transactions, so time-based test windows must avoid or treat this tail separately.
-
