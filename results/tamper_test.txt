@@ -1,0 +1,9 @@
+TEST                               RESULT  DETAIL
+0 untouched log verifies clean     PASS    no problems
+0b replay record 100               PASS    decision=release
+1 edit a field                     PASS    1 problem(s): record 100: content altered (hash mismatch)
+1b edit + recompute its hash       PASS    2 problem(s): record 101: chain broken (prev_hash mismatch)
+2 delete a record                  PASS    135 problem(s): record 100: sequence is 101 (gap, reorder or deletion)
+3 reorder records                  PASS    6 problem(s): record 100: sequence is 101 (gap, reorder or deletion)
+4 truncate the tail                PASS    1 problem(s): checkpoint 230: log ends at 220 (tail truncated)
+5 swap the model file              PASS    230 problem(s): record 1: model file does not match logged model hash
