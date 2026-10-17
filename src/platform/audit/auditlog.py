@@ -72,7 +72,7 @@ class AuditLog:
         return seq, head, (cp["seq"] if cp else 0)
 
     def append(self, txn_id, feature_hash, model_hash, calibrator_hash,
-               threshold, score, decision, tier):
+               threshold, score, decision, tier, extra=None):
         with self._lock:
             self.seq += 1
             rec = {
@@ -82,6 +82,10 @@ class AuditLog:
                 "score": score, "decision": decision, "tier": tier,
                 "prev_hash": self.head,
             }
+            if extra:
+                for k, v in extra.items():
+                    if k not in rec:
+                        rec[k] = v
             rec["record_hash"] = record_hash(rec)
             self.head = rec["record_hash"]
             self._buf.append(rec)
@@ -179,8 +183,11 @@ def replay(directory, seq, rescore=None):
         for line in f:
             rec = json.loads(line)
             if rec["seq"] == seq:
-                expected = "hold" if rec["score"] >= rec["threshold"] else "release"
-                ok = rec["decision"] == expected
+                if rec.get("event") == "verify":
+                    ok = rec.get("result") in ("pass", "fail")
+                else:
+                    expected = "hold" if rec["score"] >= rec["threshold"] else "release"
+                    ok = rec["decision"] == expected
                 if rescore is not None:
                     ok = ok and abs(rescore(rec["txn_id"]) - rec["score"]) < 1e-6
                 return ok, rec

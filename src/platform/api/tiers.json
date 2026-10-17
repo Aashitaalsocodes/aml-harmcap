@@ -1,0 +1,12 @@
+{
+  "note": "PLACEHOLDER values. Tiers are fractions of the range from the threshold up to 1.0, so they survive a model swap. Pass probabilities are ASSUMPTIONS, not measurements.",
+  "tiers": [
+    {"tier": 1, "up_to_fraction": 0.50, "step": "Confirm the payment in your banking app"},
+    {"tier": 2, "up_to_fraction": 0.85, "step": "Re-verify identity with documents"},
+    {"tier": 3, "up_to_fraction": 1.00, "step": "Manual review by a human analyst"}
+  ],
+  "assumed_pass_probability": {
+    "honest": {"1": 0.95, "2": 0.85, "3": 0.80},
+    "criminal": {"1": 0.40, "2": 0.15, "3": 0.05}
+  }
+}
