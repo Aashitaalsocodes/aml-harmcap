@@ -1,0 +1,6 @@
+Load test: no-logging, 2000 requests per level (client runs in the same container)
+ conc   reqs errors     req/s   p50 ms   p95 ms   p99 ms
+    1   2000      0     853.0     1.13     1.34     1.75
+   10   2000      0     813.8     6.71    45.57   110.12
+   50   2000      0     270.5   117.54   579.55   902.03
+  100   2000      0     166.8   278.49  2260.79  3518.66
