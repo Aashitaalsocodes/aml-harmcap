@@ -1,0 +1,4 @@
+HI-Small test (Sep 9-10, 8 six-hour windows), thresholds frozen from Sep 7-8 calibration
+cap 2  | recall 29.0% | mean harm 0.9   | worst 2.1   | break 1 of 8
+cap 5  | recall 32.8% | mean harm 9.1   | worst 48.8  | break 2 of 8
+cap 10 | recall 35.4% | mean harm 209.0 | worst 789.3 | break 4 of 8

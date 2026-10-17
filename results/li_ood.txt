@@ -1,0 +1,4 @@
+thresholds: {2: np.float64(0.9999999999999998), 5: np.float64(0.99506049103294), 10: np.float64(0.6388633634331633)}
+LI cap  2 | recall 11.9% | mean harm 1.9 | worst 7.4 | break 25% of 40 windows
+LI cap  5 | recall 13.4% | mean harm 6.0 | worst 50.0 | break 35% of 40 windows
+LI cap 10 | recall 15.2% | mean harm 48.0 | worst 745.8 | break 48% of 40 windows
