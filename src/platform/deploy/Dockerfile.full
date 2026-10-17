@@ -1,0 +1,9 @@
+FROM jupyter-aml
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 RUNTIME_DIR=/data MODEL_PATH=/model/m3.txt
+ENTRYPOINT []
+WORKDIR /app
+COPY audit/auditlog.py /app/audit/auditlog.py
+COPY api/app.py api/scorer.py api/tiers.json /app/api/
+WORKDIR /app/api
+EXPOSE 8000
+CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
