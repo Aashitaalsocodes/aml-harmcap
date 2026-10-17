@@ -49,6 +49,18 @@ PASS means the tamper was detected. All five attacks were caught, including the 
 | 10 | 15.2% | 48.0 | 745.8 | 48% of 40 windows |
 
 The guarantee weakens on the second dataset. At cap 2 the break rate rises from 1 of 8 windows (12.5%) on HI-Small to 25% on LI-Small, and recall falls from 29.0% to 11.9%. Looser caps again break often and by large margins. This is the result the project is designed to measure: a harm cap tuned on one dataset does not automatically hold on another.
+
+### Load test (with audit logging)
+2,000 requests per concurrency level against the FastAPI service in Docker on the LinuxONE VM. The load client ran in the same container as the API, so it competed with the server for the same 3 CPUs and the figures understate what the service can do.
+
+| Concurrent clients | Requests | Errors | Requests/s | p50 ms | p95 ms | p99 ms |
+|---|---|---|---|---|---|---|
+| 1 | 2000 | 0 | 877.5 | 1.09 | 1.37 | 1.86 |
+| 10 | 2000 | 0 | 774.3 | 6.62 | 47.91 | 122.19 |
+| 50 | 2000 | 0 | 297.6 | 99.86 | 556.23 | 924.84 |
+| 100 | 2000 | 0 | 244.3 | 183.07 | 1836.22 | 3225.25 |
+
+There were no errors at any level. Throughput is highest with one client and falls as concurrency rises, and tail latency grows from under 2 ms to about 3.2 s at 100 clients.
 ## Limitations
 - The data is synthetic and has no real "innocent customer" label.
 - The data spans only days to weeks, so test windows are hours or single days.
