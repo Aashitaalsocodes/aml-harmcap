@@ -1,0 +1,6 @@
+Load test: real-model, 2000 requests per level (client runs in the same container)
+ conc   reqs errors     req/s   p50 ms   p95 ms   p99 ms
+    1   2000      0     873.2     1.08     1.32     1.82
+   10   2000      0     796.2     6.53    51.57   110.23
+   50   2000      0     290.5   109.10   518.41   926.62
+  100   2000      0     250.4   171.19  1774.44  3350.01
