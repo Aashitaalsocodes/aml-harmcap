@@ -108,6 +108,9 @@ There were no errors at any level. Throughput is highest with one client and fal
 ## Live service
 The API on port 8000 (amlapi) runs the real model: LightGBM `lightgbm-m3-r24` (`m3.txt`), model hash `f4642eb27784b354fed862d4daa96cf5047ab0a93537fe864634ac7a9663e7de`, threshold 0.99506049103294, cap 5 per 10,000. Audit checkpoints are signed with Ed25519 using PyCryptodome 4.0.0, because the `cryptography` package has no usable wheel on s390x.
 
+## Replay check
+The audit log can replay a decision with the pinned model. On 20,000 consecutive HI-Small test rows, all 20,000 replayed scores were within 1e-6 of the offline m3 model scores (maximum difference 7e-8). The check ran after warm-up, on one slice of the test window, so it shows that the served model matches the offline model, not that every row was checked. Details: `results/replay_check.txt`.
+
 ## Verification tiers
 Held transactions get a tier (1 to 3) based on how far the score is above the threshold, plus a required step for the customer (app confirmation, identity re-check, or manual review). A failed check escalates the case, a passed check clears it, and every attempt is written to the tamper-evident audit log. Endpoints: POST /case/{id}/verify (needs a verifier token) and GET /case/{id}. Limits: the service records a pass or fail supplied by the caller and does not verify anyone; tier ranges and pass rates are placeholders until the real score distribution exists. Step-by-step commands: docs/platform_demo.md.
 
