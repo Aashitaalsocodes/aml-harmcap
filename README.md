@@ -126,6 +126,9 @@ Result files in `results/`:
 - `loadtest_with_logging.txt`, `loadtest_no_logging.txt`: test scorer (first run)
 - `loadtest_real_model.txt`: real model, throwaway container
 - `loadtest.txt`: real model, Aashita's run
+- `recal.txt`: daily recalibration experiment (negative result)
+- `replay_check.txt`: replay check of the served model against the offline model
+- `demo_hold_sequence.json`: replayable demo hold sequence
 
 ## Data exploration
 
