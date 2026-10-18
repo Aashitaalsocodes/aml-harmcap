@@ -69,7 +69,7 @@ The thresholds from the HI-Small calibration were applied without retuning to 40
 The guarantee weakens on the second dataset. At cap 2 the break rate rises from 1 of 8 windows (12.5%) on HI-Small to 25% on LI-Small, and recall falls from 29.0% to 11.9%. Looser caps again break often and by large margins. This is the result the project is designed to measure: a harm cap tuned on one dataset does not automatically hold on another.
 
 ### Tamper-evident audit log
-Every decision is written to a hash-chained log with signed checkpoints. A verifier walks the chain and checks the hashes, the signatures and the pinned model file. Automated tests alter the log in five ways, and the verifier must detect each one.
+Every decision is written to a hash-chained log with signed checkpoints. A verifier walks the chain and checks the hashes, the signatures and the pinned model file. Automated tests run eight checks: six tampering attacks (edit, edit with recomputed hash, delete, reorder, truncate the tail, swap the model file) and two controls (a clean log verifies, a record replays).
 
 Audit signing key fingerprints (SHA-256 of the DER public key, as reported by each service's /policy under audit_public_key_sha256):
 
@@ -92,10 +92,10 @@ Tamper tests ran on freshly generated logs with throwaway keys, not on the live 
 | 4. Truncate the tail | PASS | checkpoint 230: log ends at 220 (tail truncated) |
 | 5. Swap the model file | PASS | record 1: model file does not match logged model hash |
 
-PASS means the tamper was detected. All five attacks were caught, including the edit with a recomputed hash, which breaks the link to the next record.
+PASS means the tamper was detected. All eight checks passed, including the edit with a recomputed hash, which breaks the link to the next record. Tail truncation is detected only back to the last signed checkpoint; records removed after the final checkpoint would not be caught.
 
 ### Load test (real model, with audit logging)
-2,000 requests per concurrency level (8,000 in total) against the FastAPI service running the real LightGBM model, in a throwaway container on the LinuxONE VM. The load client ran in the same container as the API, on a shared 3-core VM, so it competed with the server for CPU and the figures understate what the service can do.
+2,000 requests per concurrency level (8,000 in total) against the FastAPI service running the real LightGBM model, in a throwaway container on the LinuxONE VM. The load client ran in the same container as the API, on a shared 3-core VM, so it competed with the server for CPU. These are single-node figures, not production capacity.
 
 | Concurrent clients | Requests | Errors | Requests/s | p50 ms | p95 ms | p99 ms |
 |---|---|---|---|---|---|---|
@@ -133,3 +133,4 @@ Result files in `results/`:
 - The last days of the dataset (11 to 18 September) contain almost only laundering transactions, so time-based test windows must avoid or treat this tail separately.
 - "Innocent" means "not labelled laundering" in the synthetic data, not a verified innocent customer.
 - The HI-Small test has only 8 windows, so a rate like 6 of 8 is coarse. Thresholds were frozen and not recalibrated.
+- Daily recalibration (threshold re-chosen each window from the previous four, skipping the latest) did not help: at cap 5 it still broke in 2 of 8 windows and the worst window rose from 48.8 to 128.8; at cap 2 recall fell from 29.0% to 13.7% (results/recal.txt).
