@@ -1,7 +1,6 @@
 # Harm-Capped AML Screening on IBM LinuxONE
 
-   - Live demo (frontend): https://harmcap-ui.vercel.app
-   - Frontend code: https://github.com/Aashitaalsocodes/harmcap-ui
+  - Live demo (frontend, shows recorded results from the LinuxONE service; the live API runs on the VM and is shown in the video): https://harmcap-ui.vercel.app
    - Video: https://drive.google.com/file/d/1spG7NF-RtLcu1AFpQxApiDA2aWoMSPg2/view?usp=sharing
 - Frontend code: [/frontend](frontend) (also at https://github.com/Aashitaalsocodes/harmcap-ui)
 - Architecture diagram: [docs/architecture.png](docs/architecture.png)
