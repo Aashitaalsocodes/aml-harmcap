@@ -1,0 +1,486 @@
+/* Limits.css - Limits & What Did Not Work (polished) */
+
+.limits-page {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-16) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-12);
+}
+
+/* Page Header */
+.limits-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.limits-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.limits-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 820px;
+  line-height: var(--leading-relaxed);
+}
+
+/* Negative Result Panel */
+.negative-result-panel {
+  background: var(--ledger);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ledger-dim);
+  border-left: 3px solid var(--vermilion);
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.negative-result-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.negative-result-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 3px var(--sp-3);
+  background: var(--vermilion-dim);
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.negative-result-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.negative-result-explanation {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--text-dark-muted);
+  line-height: var(--leading-relaxed);
+  max-width: 840px;
+}
+
+/* Prominent Key Stat Comparison Callouts */
+.negative-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--sp-5);
+  background: var(--ledger-dim);
+  padding: var(--sp-6);
+  border-radius: var(--radius-md);
+}
+
+.negative-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.negative-stat-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-dark-muted);
+}
+
+.negative-stat-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.negative-stat-big {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.negative-stat-big.vermilion {
+  color: var(--vermilion);
+}
+
+.negative-stat-big.neutral {
+  color: var(--text-dark);
+}
+
+.negative-stat-desc {
+  font-size: var(--text-base);
+  color: var(--text-dark);
+  line-height: var(--leading-normal);
+}
+
+/* One-line prominent reading */
+.prominent-reading-banner {
+  padding: var(--sp-5) var(--sp-6);
+  background: var(--vermilion-dim);
+  border: 1px solid var(--vermilion);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.prominent-reading-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--vermilion);
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: light) {
+  .prominent-reading-banner {
+    background: #FFF5F2;
+  }
+  .prominent-reading-text {
+    color: #8C1D18;
+  }
+}
+
+/* Comparison Table Container */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--ledger-dim);
+  background: #FFFFFF;
+}
+
+.recal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.recal-table th {
+  background: var(--ledger-dim);
+  color: var(--text-dark-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: var(--sp-4);
+  text-align: right;
+  border-bottom: 2px solid var(--ledger-dim);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.recal-table th:first-child {
+  text-align: left;
+}
+
+.recal-table td {
+  padding: var(--sp-4);
+  text-align: right;
+  border-bottom: 1px solid var(--ledger-dim);
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+}
+
+.recal-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+}
+
+.recal-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.recal-table tbody tr:hover {
+  background: var(--ledger-hover);
+}
+
+.table-cell-dim {
+  color: var(--text-dark-muted);
+}
+
+.table-cell-alert {
+  color: var(--vermilion);
+  font-weight: 700;
+}
+
+.table-caption-note {
+  font-size: var(--text-sm);
+  color: var(--text-dark-muted);
+  line-height: var(--leading-normal);
+  margin-top: var(--sp-2);
+}
+
+/* Known Limitations Section */
+.limitations-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.limitations-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.limitations-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.limitations-intro {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  max-width: 820px;
+  line-height: var(--leading-relaxed);
+}
+
+/* Non-identical distinct limitation blocks */
+.limitations-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+/* 1. Synthetic labels: ledger panel with muted left accent */
+.limitation-item-synthetic {
+  background: var(--ledger);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8);
+  border: 1px solid var(--ledger-dim);
+  border-left: 3px solid var(--text-muted);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.limitation-label-synthetic {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-dark-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.limitation-heading-synthetic {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.limitation-body-synthetic {
+  font-size: 1.0625rem;
+  line-height: var(--leading-relaxed);
+  color: var(--text-dark-muted);
+}
+
+/* 2. Only 8 HI test windows: split with stat callout */
+.limitation-item-windows {
+  background: var(--ledger);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--sp-8);
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--ledger-dim);
+  border-left: 3px solid var(--amber);
+}
+
+@media (max-width: 768px) {
+  .limitation-item-windows {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+}
+
+.limitation-window-metric {
+  background: var(--ledger-dim);
+  padding: var(--sp-5) var(--sp-4);
+  border-radius: var(--radius-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.limitation-stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.limitation-stat-subtext {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-dark-muted);
+  margin-top: var(--sp-2);
+}
+
+.limitation-window-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.limitation-window-title {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.limitation-window-text {
+  font-size: 1.0625rem;
+  line-height: var(--leading-relaxed);
+  color: var(--text-dark-muted);
+}
+
+/* 3. Frozen thresholds: dashed architectural note */
+.limitation-item-frozen {
+  background: var(--ledger-dim);
+  color: var(--text-dark);
+  border: 1px dashed var(--ledger-dim);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.limitation-label-frozen {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-dark-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.limitation-heading-frozen {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.limitation-body-frozen {
+  font-size: 1.0625rem;
+  line-height: var(--leading-relaxed);
+  color: var(--text-dark-muted);
+}
+
+/* 4. Audit truncation: dark security block */
+.limitation-item-audit {
+  background: var(--ink-light);
+  color: var(--text-primary);
+  border: 1px solid var(--ink-lighter);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  box-shadow: var(--shadow-sm);
+}
+
+.limitation-audit-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.limitation-audit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  display: inline-block;
+}
+
+.limitation-heading-audit {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.limitation-body-audit {
+  font-size: 1.0625rem;
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* Accessible focus states */
+.recal-table:focus-visible,
+.table-container:focus-visible,
+.negative-result-panel:focus-visible,
+.limitation-item-synthetic:focus-visible,
+.limitation-item-windows:focus-visible,
+.limitation-item-frozen:focus-visible,
+.limitation-item-audit:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  .limitation-item-audit {
+    background: var(--ledger-dim);
+    color: var(--text-dark);
+    border-color: var(--ledger-dim);
+  }
+  .limitation-heading-audit {
+    color: var(--text-dark);
+  }
+  .limitation-body-audit {
+    color: var(--text-dark-muted);
+  }
+  .limitation-audit-indicator {
+    color: #925805;
+  }
+  .limitation-audit-dot {
+    background: #B47209;
+  }
+}

@@ -1,0 +1,122 @@
+/* ══════════════════════════════════════════════════════
+   Design Tokens — HarmCap
+   ══════════════════════════════════════════════════════ */
+:root {
+  /* ── Palette ── */
+  --ink:          #0E1A24;
+  --ink-subtle:   #131F2B;
+  --ink-light:    #162736;
+  --ink-lighter:  #1E3448;
+  --surface:      #1A2D3D;
+
+  --ledger:       #F4F1E8;
+  --ledger-dim:   #E8E4DA;
+  --ledger-hover: #EDEADF;
+
+  --teal:         #19A58E;
+  --teal-dim:     rgba(25, 165, 142, 0.12);
+  --teal-strong:  #15907c;
+
+  --vermilion:    #E2553B;
+  --vermilion-dim:rgba(226, 85, 59, 0.10);
+
+  --amber:        #E8B341;
+  --amber-dim:    rgba(232, 179, 65, 0.10);
+
+  /* ── Semantic colors ── */
+  --success:      var(--teal);
+  --warning:      var(--amber);
+  --error:        var(--vermilion);
+  --info:         #5B9BD5;
+
+  /* ── Text ── */
+  --text-primary:    #F4F1E8;
+  --text-secondary:  #B8C4D0;
+  --text-muted:      #7E8E9F;
+  --text-dark:       #1A1A17;
+  --text-dark-muted: #5C6370;
+
+  /* ── Typography ── */
+  --font-display: 'Fraunces', serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* Type scale */
+  --text-xs:   0.75rem;   /* 12px */
+  --text-sm:   0.875rem;  /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.25rem;   /* 20px */
+  --text-xl:   1.75rem;   /* 28px */
+  --text-2xl:  2.5rem;    /* 40px */
+  --text-3xl:  3.5rem;    /* 56px */
+
+  --leading-tight:  1.15;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.65;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+
+  /* ── Spacing (8px grid) ── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* ── Radii ── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-full:9999px;
+
+  /* ── Shadows (layered, soft) ── */
+  --shadow-sm:   0 1px 2px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.10);
+  --shadow-md:   0 2px 4px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.12);
+  --shadow-lg:   0 4px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.16);
+  /* Legacy aliases */
+  --shadow-card:     var(--shadow-sm);
+  --shadow-elevated: var(--shadow-lg);
+
+  /* ── Transitions ── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+  --transition-fast:   150ms var(--ease-out);
+  --transition-normal: 250ms var(--ease-out);
+
+  /* ── Layout ── */
+  --nav-width:    240px;
+  --strip-height: 40px;
+  --max-width:    1200px;
+}
+
+/* ── Light scheme ── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --ink:          #F7F5F0;
+    --ink-subtle:   #F0EDE5;
+    --ink-light:    #EDEADF;
+    --ink-lighter:  #E0DDD4;
+    --surface:      #FFFFFF;
+
+    --ledger:       #FFFFFF;
+    --ledger-dim:   #F7F5EF;
+    --ledger-hover: #F0EDE5;
+
+    --text-primary:    #1A1A17;
+    --text-secondary:  #3D4550;
+    --text-muted:      #6B7280;
+    --text-dark:       #1A1A17;
+    --text-dark-muted: #6B7280;
+
+    --shadow-sm:   0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md:   0 2px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg:   0 4px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.10);
+  }
+}
