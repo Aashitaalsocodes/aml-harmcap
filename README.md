@@ -12,20 +12,30 @@ Banks' AML systems flag transactions, and most flags are innocent people who get
 ## How to run
 Run these on the LinuxONE VM (host prompt, `linux1@lbc:~$`). The service listens on localhost only.
 
+**Shared team VM: don't run these.** Step 1 rebuilds `aml-harmcap:dev`, our rollback image, and the containers already exist. Use a free port and a new container name if you test from scratch.
+
+**A. Test scorer (placeholder model, `/health` shows dummy-scorer-v0)**
+
 ```
-# 1. Build the image
 cd ~/shared/ashmitha/aml-harmcap/src/platform
 docker build -f deploy/Dockerfile -t aml-harmcap:dev .
+docker run -d --name amlapi-test -p 127.0.0.1:<free-port>:8000 -e VERIFY_TOKEN=<your-secret> -v amlruntime:/data aml-harmcap:dev
+```
 
-# 2. Start the container (choose any secret for VERIFY_TOKEN)
-docker run -d --name amlapi -p 127.0.0.1:8000:8000 -e VERIFY_TOKEN=<your-secret> -v amlruntime:/data aml-harmcap:dev
+**B. Real model (LightGBM, used in the video)**
 
-# 3. Check it and send one transaction
-curl -s localhost:8000/health
-curl -s -X POST localhost:8000/screen -H 'Content-Type: application/json' -d '{"txn_id":"DEMO1","src_acct":"A1","dst_acct":"B2","amount":250.0}'
+```
+cd ~/shared/ashmitha/aml-harmcap/src/platform
+docker build -f deploy/Dockerfile.full -t aml-harmcap:real .
+docker run -d --name amlreal-test -p 127.0.0.1:<free-port>:8000 -e VERIFY_TOKEN=<your-secret> -e MODEL_PATH=/model/m3.txt -e THRESHOLD=0.99506049103294 -e CAP_PER_10K=5 -v /home/linux1/shared/clean:/model:ro -v amlruntime:/data aml-harmcap:real
+```
 
-# 4. Verify the audit log is intact
-curl -s localhost:8000/audit/verify
+**Check it and send one transaction (use your free port)**
+
+```
+curl -s localhost:<free-port>/health
+curl -s -X POST localhost:<free-port>/screen -H 'Content-Type: application/json' -d '{"txn_id":"DEMO1","src_acct":"A1","dst_acct":"B2","amount":250.0}'
+curl -s localhost:<free-port>/audit/verify
 ```
 
 Tamper tests (inside the notebook container, started with `docker exec -it notebook bash`):
@@ -33,8 +43,6 @@ Tamper tests (inside the notebook container, started with `docker exec -it noteb
 ```
 cd ~/shared/ashmitha/aml-harmcap/src/platform/audit && python3 test_tamper.py
 ```
-
-Step 2 is for building from scratch. On the shared team VM the container `amlapi` already exists, so skip it and don't remove it.
 ## Results
 
 ### Harm-cap test on later windows (HI-Small)
@@ -64,8 +72,8 @@ Every decision is written to a hash-chained log with signed checkpoints. A verif
 
 Audit signing key fingerprints (SHA-256 of the DER public key, as reported by each service's /policy under audit_public_key_sha256):
 
-- Demo service (port 8002): `9a9cc1eb5a0b04a2b598354930294247c3d6ea4d5d9625ba48e1e03508f0c5b1`
-- Platform API (port 8000): `36cf12035bb2476c0bd08ea4ec703506d16ab5dfcce612159c8ce448e2c47157`
+- amlapi, platform API (port 8000, live demo): `36cf12035bb2476c0bd08ea4ec703506d16ab5dfcce612159c8ce448e2c47157`
+- amlreal, real-model backup (port 8002): `9a9cc1eb5a0b04a2b598354930294247c3d6ea4d5d9625ba48e1e03508f0c5b1`
 
 The public key is stored next to the log, so these values are kept here and in the video, outside the VM, so anyone can check them.
 
@@ -100,7 +108,21 @@ There were no errors at any level. Throughput is highest with one client and fal
 ## Verification tiers
 Held transactions get a tier (1 to 3) based on how far the score is above the threshold, plus a required step for the customer (app confirmation, identity re-check, or manual review). A failed check escalates the case, a passed check clears it, and every attempt is written to the tamper-evident audit log. Endpoints: POST /case/{id}/verify (needs a verifier token) and GET /case/{id}. Limits: the service records a pass or fail supplied by the caller and does not verify anyone; tier ranges and pass rates are placeholders until the real score distribution exists. Step-by-step commands: docs/platform_demo.md.
 
+## Files and links
+- Datasets, libraries and references: `LINKS.md`
+- Definitions used in the tests: `DEFINITIONS.md`
+- Video: (link to be added)
+
+Result files in `results/`:
+- `hi_test.txt`, `li_ood.txt`: harm-cap tests
+- `tamper_test.txt`: tamper tests
+- `loadtest_with_logging.txt`, `loadtest_no_logging.txt`: test scorer (first run)
+- `loadtest_real_model.txt`: real model, throwaway container
+- `loadtest.txt`: real model, Aashita's run
+
 ## Limitations
 - The data is synthetic and has no real "innocent customer" label.
 - The data spans only days to weeks, so test windows are hours or single days.
 - The last days of the dataset (11 to 18 September) contain almost only laundering transactions, so time-based test windows must avoid or treat this tail separately.
+- "Innocent" means "not labelled laundering" in the synthetic data, not a verified innocent customer.
+- The HI-Small test has only 8 windows, so a rate like 6 of 8 is coarse. Thresholds were frozen and not recalibrated.
