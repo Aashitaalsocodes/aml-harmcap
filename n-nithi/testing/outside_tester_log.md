@@ -1,4 +1,4 @@
-\# Outside tester log
+18-10-2026 | README load-test table vs results files | Table uses real-model run | Table was the dummy-scorer run; Ashmitha confirmed file labels | Fail, told M, fix requested# Outside tester log
 
 Date/time | What I tried (README step) | Expected | What happened | Pass/Fail
 
