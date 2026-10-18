@@ -38,5 +38,7 @@
 
 | 18-10-2026 | Re-test README video link and DEFINITIONS | Placeholder and link present | "Video: (link to be added)" and DEFINITIONS.md linked | Pass |
 
-| 18-10-2026 | Re-test README load table and replay check | Real-model table, replay line | 873.2 req/s, p95 1.32 ms row and replay check (20,000 rows within 1e-6, one slice) present | Pass || 18-10-2026 | Check root screenshot for secrets | No token, key or .verify\_token value | Shows health, one /screen request and audit verify; no secret visible | Pass |
+| 18-10-2026 | Re-test README load table and replay check | Real-model table, replay line | 873.2 req/s, p95 1.32 ms row and replay check (20,000 rows within 1e-6, one slice) present | Pass |
+
+| 18-10-2026 | Check root screenshot for secrets | No token, key or .verify\_token value | Shows health, one /screen request and audit verify; no secret visible | Pass |
 
