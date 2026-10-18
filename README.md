@@ -127,6 +127,20 @@ Result files in `results/`:
 - `loadtest_real_model.txt`: real model, throwaway container
 - `loadtest.txt`: real model, Aashita's run
 
+## Data exploration
+
+Plots made from the HI-Small and LI-Small transaction files and their pattern files.
+
+**Laundering rate over time.** On both datasets the laundering rate per day is close to zero from 1 to 10 September, then jumps to about 56% to 73% of transactions on HI-Small (11 to 18 September) and 56% to 71% on LI-Small (11 to 17 September). This late period is almost entirely laundering, so time-based test windows must avoid it or treat it separately (see Limitations).
+
+![HI-Small laundering rate per day](plot_rate_per_day.png)
+![LI-Small laundering rate per day](plot_li_rate_per_day.png)
+
+**Laundering patterns.** The pattern files label eight types of laundering. In HI-Small, cycle is the most frequent, followed by gather-scatter, bipartite and fan-out, and fan-in is the least frequent. In LI-Small, fan-out is the most frequent, followed by stack, bipartite and random, and cycle, gather-scatter and fan-in are the least frequent. So the mix of patterns differs between the two datasets. The pattern charts have no axis label, so we compare ranks only. Not all laundering in the data follows one of these eight patterns.
+
+![HI-Small laundering patterns](plot_patterns.png)
+![LI-Small laundering patterns](plot_li_patterns.png)
+
 ## Limitations
 - The data is synthetic and has no real "innocent customer" label.
 - The data spans only days to weeks, so test windows are hours or single days.
