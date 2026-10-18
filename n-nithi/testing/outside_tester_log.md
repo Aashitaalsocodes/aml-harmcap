@@ -1,4 +1,8 @@
-18-10-2026 | README load-test table vs results files | Table uses real-model run | Table was the dummy-scorer run; Ashmitha confirmed file labels | Fail, told M, fix requested# Outside tester log
+18-10-2026 | Re-test README fingerprints and services | amlapi 8000 = 36cf, amlreal 8002 = 9a9c, labelled | Both labelled correctly | Pass
+
+18-10-2026 | Re-test README video link and DEFINITIONS | Placeholder and link present | "Video: (link to be added)" and DEFINITIONS.md linked | Pass
+
+18-10-2026 | Re-test README load table | Real-model table in README body | Table labelled test scorer; real-model numbers only listed as a file name | Open, asked M18-10-2026 | README load-test table vs results files | Table uses real-model run | Table was the dummy-scorer run; Ashmitha confirmed file labels | Fail, told M, fix requested# Outside tester log
 
 Date/time | What I tried (README step) | Expected | What happened | Pass/Fail
 
