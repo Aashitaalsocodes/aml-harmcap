@@ -93,17 +93,17 @@ Tamper tests ran on freshly generated logs with throwaway keys, not on the live 
 
 PASS means the tamper was detected. All five attacks were caught, including the edit with a recomputed hash, which breaks the link to the next record.
 
-### Load test (with audit logging, test scorer, first run)
-2,000 requests per concurrency level against the FastAPI service in Docker on the LinuxONE VM. The load client ran in the same container as the API, so it competed with the server for the same 3 CPUs and the figures understate what the service can do.
+### Load test (real model, with audit logging)
+2,000 requests per concurrency level (8,000 in total) against the FastAPI service running the real LightGBM model, in a throwaway container on the LinuxONE VM. The load client ran in the same container as the API, on a shared 3-core VM, so it competed with the server for CPU and the figures understate what the service can do.
 
 | Concurrent clients | Requests | Errors | Requests/s | p50 ms | p95 ms | p99 ms |
 |---|---|---|---|---|---|---|
-| 1 | 2000 | 0 | 877.5 | 1.09 | 1.37 | 1.86 |
-| 10 | 2000 | 0 | 774.3 | 6.62 | 47.91 | 122.19 |
-| 50 | 2000 | 0 | 297.6 | 99.86 | 556.23 | 924.84 |
-| 100 | 2000 | 0 | 244.3 | 183.07 | 1836.22 | 3225.25 |
+| 1 | 2000 | 0 | 873.2 | 1.08 | 1.32 | 1.82 |
+| 10 | 2000 | 0 | 796.2 | 6.53 | 51.57 | 110.23 |
+| 50 | 2000 | 0 | 290.5 | 109.10 | 518.41 | 926.62 |
+| 100 | 2000 | 0 | 250.4 | 171.19 | 1774.44 | 3350.01 |
 
-There were no errors at any level. Throughput is highest with one client and falls as concurrency rises, and tail latency grows from under 2 ms to about 3.2 s at 100 clients.
+There were no errors at any level (0 errors in 8,000 requests). Throughput is highest with one client and falls as concurrency rises, because the service runs a single worker, and tail latency grows from under 2 ms at one client to about 3.4 s at 100 clients. We do not claim this scales: the figures show one worker on a shared 3-core VM, with the load client competing for the same CPUs. An earlier run with the test scorer gave almost the same figures (877.5 requests/s at one client, 244.3 at 100), so the model itself is not the bottleneck. A separate real-model run by Aashita (`results/loadtest.txt`) gave consistent numbers. Source: `results/loadtest_real_model.txt`.
 
 ## Live service
 The API on port 8000 (amlapi) runs the real model: LightGBM `lightgbm-m3-r24` (`m3.txt`), model hash `f4642eb27784b354fed862d4daa96cf5047ab0a93537fe864634ac7a9663e7de`, threshold 0.99506049103294, cap 5 per 10,000. Audit checkpoints are signed with Ed25519 using PyCryptodome 4.0.0, because the `cryptography` package has no usable wheel on s390x.
