@@ -10,8 +10,31 @@ Banks' AML systems flag transactions, and most flags are innocent people who get
 - Video script, slides, testing: N
 
 ## How to run
-(To be filled in when the platform and model are ready.)
+Run these on the LinuxONE VM (host prompt, `linux1@lbc:~$`). The service listens on localhost only.
 
+```
+# 1. Build the image
+cd ~/shared/ashmitha/aml-harmcap/src/platform
+docker build -f deploy/Dockerfile -t aml-harmcap:dev .
+
+# 2. Start the container (choose any secret for VERIFY_TOKEN)
+docker run -d --name amlapi -p 127.0.0.1:8000:8000 -e VERIFY_TOKEN=<your-secret> -v amlruntime:/data aml-harmcap:dev
+
+# 3. Check it and send one transaction
+curl -s localhost:8000/health
+curl -s -X POST localhost:8000/screen -H 'Content-Type: application/json' -d '{"txn_id":"DEMO1","src_acct":"A1","dst_acct":"B2","amount":250.0}'
+
+# 4. Verify the audit log is intact
+curl -s localhost:8000/audit/verify
+```
+
+Tamper tests (inside the notebook container, started with `docker exec -it notebook bash`):
+
+```
+cd ~/shared/ashmitha/aml-harmcap/src/platform/audit && python3 test_tamper.py
+```
+
+Step 2 is for building from scratch. On the shared team VM the container `amlapi` already exists, so skip it and don't remove it.
 ## Results
 
 ### Harm-cap test on later windows (HI-Small)
@@ -47,6 +70,7 @@ Audit signing key fingerprints (SHA-256 of the DER public key, as reported by ea
 The public key is stored next to the log, so these values are kept here and in the video, outside the VM, so anyone can check them.
 
 Tamper tests ran on freshly generated logs with throwaway keys, not on the live demo log.
+
 | Test | Result | What the verifier reported |
 |---|---|---|
 | Untouched log verifies clean | PASS | no problems |
