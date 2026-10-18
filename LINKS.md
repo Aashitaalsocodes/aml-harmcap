@@ -15,6 +15,7 @@
 | SciPy | https://scipy.org | Clopper-Pearson bound |
 | scikit-learn | https://scikit-learn.org | isotonic calibration, metrics |
 | LightGBM | https://github.com/microsoft/LightGBM | model |
+| XGBoost | https://xgboost.readthedocs.io | installed in the base image |
 | PyArrow | https://arrow.apache.org/docs/python/ | parquet files |
 | FastAPI | https://fastapi.tiangolo.com | API service |
 | Uvicorn | https://www.uvicorn.org | API server |
