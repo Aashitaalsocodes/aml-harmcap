@@ -4,8 +4,8 @@
 Banks' AML systems flag transactions, and most flags are innocent people who get frozen, with nobody measuring that harm. We flip the objective: the bank first sets a cap on wrongly held innocents (for example 5 per 10,000), and the system catches as much laundering as it can within that cap. We test whether the cap holds on later time windows and on a second dataset, and report the break rate. Every decision goes into a hash-chained audit log, served by a FastAPI service in Docker on IBM LinuxONE.
 
 ## Team and roles
-- Data, model, thresholds: (name)
-- Platform, audit log, API, Docker: (name)
+- Data, model, thresholds: Aashita
+- Platform, audit log, API, Docker: Ashmitha
 - Evidence, README, exploration: M
 - Video script, slides, testing: N
 
@@ -39,6 +39,14 @@ The guarantee weakens on the second dataset. At cap 2 the break rate rises from 
 ### Tamper-evident audit log
 Every decision is written to a hash-chained log with signed checkpoints. A verifier walks the chain and checks the hashes, the signatures and the pinned model file. Automated tests alter the log in five ways, and the verifier must detect each one.
 
+Audit signing key fingerprints (SHA-256 of the DER public key, as reported by each service's /policy under audit_public_key_sha256):
+
+- Demo service (port 8002): `9a9cc1eb5a0b04a2b598354930294247c3d6ea4d5d9625ba48e1e03508f0c5b1`
+- Platform API (port 8000): `36cf12035bb2476c0bd08ea4ec703506d16ab5dfcce612159c8ce448e2c47157`
+
+The public key is stored next to the log, so these values are kept here and in the video, outside the VM, so anyone can check them.
+
+Tamper tests ran on freshly generated logs with throwaway keys, not on the live demo log.
 | Test | Result | What the verifier reported |
 |---|---|---|
 | Untouched log verifies clean | PASS | no problems |
