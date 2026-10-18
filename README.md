@@ -71,6 +71,7 @@ The public key is stored next to the log, so these values are kept here and in t
 
 Tamper tests ran on freshly generated logs with throwaway keys, not on the live demo log.
 
+
 | Test | Result | What the verifier reported |
 |---|---|---|
 | Untouched log verifies clean | PASS | no problems |
@@ -95,6 +96,9 @@ PASS means the tamper was detected. All five attacks were caught, including the 
 | 100 | 2000 | 0 | 244.3 | 183.07 | 1836.22 | 3225.25 |
 
 There were no errors at any level. Throughput is highest with one client and falls as concurrency rises, and tail latency grows from under 2 ms to about 3.2 s at 100 clients.
+
+## Verification tiers
+Held transactions get a tier (1 to 3) based on how far the score is above the threshold, plus a required step for the customer (app confirmation, identity re-check, or manual review). A failed check escalates the case, a passed check clears it, and every attempt is written to the tamper-evident audit log. Endpoints: POST /case/{id}/verify (needs a verifier token) and GET /case/{id}. Limits: the service records a pass or fail supplied by the caller and does not verify anyone; tier ranges and pass rates are placeholders until the real score distribution exists. Step-by-step commands: docs/platform_demo.md.
 
 ## Limitations
 - The data is synthetic and has no real "innocent customer" label.
