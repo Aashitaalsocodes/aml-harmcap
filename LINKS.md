@@ -20,8 +20,8 @@
 | FastAPI | https://fastapi.tiangolo.com | API service |
 | Uvicorn | https://www.uvicorn.org | API server |
 | httpx | https://www.python-httpx.org | HTTP client (API container) |
-| PyCryptodome | https://www.pycryptodome.org | installed in the API container (confirm its use with Ashmitha) |
-| cryptography | https://cryptography.io | Ed25519 signatures |
+| pydantic | https://docs.pydantic.dev | request validation in the API |
+| PyCryptodome | https://www.pycryptodome.org | Ed25519 signatures for the audit log (cryptography has no wheel on s390x) |
 | JupyterLab | https://jupyter.org | notebooks |
 | Matplotlib | https://matplotlib.org | plots |
 
