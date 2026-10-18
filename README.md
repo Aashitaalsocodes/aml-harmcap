@@ -12,7 +12,7 @@ Banks' AML systems flag transactions, and most flags are innocent people who get
 ## How to run
 Run these on the LinuxONE VM (host prompt, `linux1@lbc:~$`). The service listens on localhost only.
 
-**Shared team VM: don't run these.** Step 1 rebuilds `aml-harmcap:dev`, our rollback image, and the containers already exist. Use a free port and a new container name if you test from scratch.
+**Shared team VM: don't run these.** Option A rebuilds `aml-harmcap:dev`, our rollback image, and the live containers already exist. Use a free port and a new container name if you test from scratch.
 
 **A. Test scorer (placeholder model, `/health` shows dummy-scorer-v0)**
 
@@ -43,6 +43,7 @@ Tamper tests (inside the notebook container, started with `docker exec -it noteb
 ```
 cd ~/shared/ashmitha/aml-harmcap/src/platform/audit && python3 test_tamper.py
 ```
+
 ## Results
 
 ### Harm-cap test on later windows (HI-Small)
