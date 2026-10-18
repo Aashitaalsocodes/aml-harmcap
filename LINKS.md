@@ -18,8 +18,8 @@
 | XGBoost | https://xgboost.readthedocs.io | Apache-2.0 | installed in the base image, not used by the live service |
 | PyArrow | https://arrow.apache.org/docs/python/ | Apache-2.0 | parquet files |
 | FastAPI | https://fastapi.tiangolo.com | MIT | API service |
-| Uvicorn | https://www.uvicorn.org | BSD-3-Clause | API server |
-| httpx | https://www.python-httpx.org | BSD-3-Clause | HTTP client (API container) |
+| Uvicorn | https://pypi.org/project/uvicorn/| BSD-3-Clause | API server |
+| httpx | https://pypi.org/project/httpx/ | BSD-3-Clause | HTTP client (API container) |
 | pydantic | https://docs.pydantic.dev | MIT | request validation in the API |
 | PyCryptodome | https://www.pycryptodome.org | BSD-2-Clause (some parts public domain) | Ed25519 signatures for the audit log (cryptography has no wheel on s390x) |
 | JupyterLab | https://jupyter.org | BSD-3-Clause | notebooks |
