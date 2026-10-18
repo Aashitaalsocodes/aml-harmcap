@@ -29,6 +29,6 @@
 - IBM LinuxONE Community Cloud (s390x, Ubuntu 24.04)
 - Docker: https://www.docker.com (Docker Engine: Apache-2.0)
 - API image base: python:3.12-slim (Python 3.12), https://hub.docker.com/_/python (Python: PSF License)
-- Base image: registry.linuxone.cloud.marist.edu/l1cc/jupyterlab-image-s390x (license: ask Ashmitha)
+- Base image: registry.linuxone.cloud.marist.edu/l1cc/jupyterlab-image-s390x (IBM LinuxONE Community Cloud, hosted by Marist; built on Red Hat UBI 10, terms: https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI)
 
 Versions in the real-model service: FastAPI 0.143.3, uvicorn 0.54.0, httpx 0.28.1, pydantic 2.14.1, PyCryptodome 4.0.0, LightGBM 4.7.0, numpy 2.0.2, pandas 3.0.6.
